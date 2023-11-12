@@ -9,5 +9,4 @@ public class OffSideServerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OffSideServerApplication.class, args);
 	}
-
 }
