@@ -1,4 +1,4 @@
-package offside.offside.server;
+package offside.server;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

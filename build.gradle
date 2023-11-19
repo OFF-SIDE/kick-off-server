@@ -26,6 +26,6 @@ dependencies {
 
 }
 
-tasks.named('test') {치
+tasks.named('test') {
 	useJUnitPlatform()
 }
