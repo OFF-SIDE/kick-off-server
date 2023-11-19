@@ -38,6 +38,23 @@ public class StadiumRepository implements StadiumRepositoryInterface {
     }
     
     @Override
+    public List<Stadium> findByContactPhone(String contact_phone) {
+        return em.createQuery("select m from Stadium as m where m.contact_phone = :contact_phone", Stadium.class)
+            .setParameter("contact_phone", contact_phone)
+            .getResultList();
+    }
+    
+    @Override
+    public List<Stadium> findByBoth(String location, String contact_phone) {
+        
+        return em.createQuery("select m from Stadium as m where m.location = :location and m.contact_phone = :contact_phone", Stadium.class)
+            .setParameter("contact_phone", contact_phone).setParameter("location",location)
+            .getResultList();
+    }
+    
+    
+    
+    @Override
     public void deleteStadiumById(Integer stadium_id) {
         Optional<Stadium> stadium = findById(stadium_id);
         if(stadium.isPresent()){

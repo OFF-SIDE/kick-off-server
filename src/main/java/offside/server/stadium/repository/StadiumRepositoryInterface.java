@@ -8,6 +8,8 @@ public interface StadiumRepositoryInterface {
     Stadium save(Stadium stadium);
     Optional<Stadium> findById(Integer stadium_id);
     List<Stadium> findByLocation(String location);
+    List<Stadium> findByContactPhone(String location);
+    List<Stadium> findByBoth(String location, String contact_phone);
     void deleteStadiumById(Integer stadium_id);
 }
 
