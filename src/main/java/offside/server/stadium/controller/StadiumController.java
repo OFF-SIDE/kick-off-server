@@ -1,21 +1,31 @@
 package offside.server.stadium.controller;
 
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import offside.server.stadium.domain.Stadium;
 import offside.server.stadium.dto.StadiumDto;
 import offside.server.stadium.service.StadiumService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.ErrorResponse;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class StadiumController {
     private final StadiumService stadiumService;
     @Autowired
@@ -27,14 +37,11 @@ public class StadiumController {
     @PostMapping("/stadium")
     @ResponseBody
     public Stadium registerStadium(@RequestBody @Valid StadiumDto stadiumData, BindingResult bindingResult){
-//        if(bindingResult.hasErrors()){
-//            return bindingResult.getFieldError().getDefaultMessage();
-//        }
-//
-//        List<String> availableLocationList = Arrays.asList("마포구","서대문구","영등포구","강남구");
-//        if(!availableLocationList.contains(stadiumData.location)){
-//            return "잘못된 주소입니다";
-//        }
+        if(bindingResult.hasErrors()){
+            FieldError fieldError = bindingResult.getFieldError();
+            throw new IllegalArgumentException(fieldError.getDefaultMessage());
+        }
+        stadiumService.validateLocation(stadiumData.location);
         
         return stadiumService.registerStadium(stadiumData);
     }
@@ -52,5 +59,8 @@ public class StadiumController {
     
     // Stadium 삭제 요청
     
-
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleNotFoundException(IllegalArgumentException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
 }

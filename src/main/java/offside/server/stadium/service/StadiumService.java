@@ -1,11 +1,13 @@
 package offside.server.stadium.service;
 
 import jakarta.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 import offside.server.stadium.domain.Stadium;
 import offside.server.stadium.dto.StadiumDto;
 import offside.server.stadium.repository.StadiumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,6 +34,13 @@ public class StadiumService {
             return stadiumRepository.findByLocation(location);
         } else{
             return stadiumRepository.findByBoth(location, contact_phone);
+        }
+    }
+    
+    public void validateLocation(String location) throws IllegalArgumentException {
+        List<String> availableLocationList = Arrays.asList("마포구","서대문구","영등포구","강남구");
+        if(!availableLocationList.contains(location)){
+            throw new IllegalArgumentException("해당 위치 "+location+"은 등록될 수 없습니다.");
         }
     }
     

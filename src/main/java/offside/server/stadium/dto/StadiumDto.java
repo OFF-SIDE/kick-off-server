@@ -1,6 +1,5 @@
 package offside.server.stadium.dto;
 
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -8,7 +7,6 @@ import jakarta.validation.constraints.Size;
 
 
 public class StadiumDto {
-    
     @NotBlank
     @Size(max = 255)
     public String location;
@@ -19,6 +17,7 @@ public class StadiumDto {
     public String contact_phone;
     
     @NotBlank(message = "Name is required")
+    @NotNull(message = "Name is not null")
     @Size(max = 255)
     public String name;
     
