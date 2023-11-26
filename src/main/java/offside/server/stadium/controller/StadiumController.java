@@ -27,9 +27,9 @@ public class StadiumController {
         this.fileUploadService = fileUploadService;
     }
 
-    @PostMapping("img")
+    @PostMapping("/img")
     @ResponseBody
-    public String postImg(@RequestBody MultipartFile file){
+    public String postImg(@RequestParam("file") MultipartFile file){
         return fileUploadService.store(file);
     }
 

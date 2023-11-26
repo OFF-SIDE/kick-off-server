@@ -16,17 +16,18 @@ public class FileUploadService {
         this.resourceLoader = resourceLoader;
     }
 
-
     public String store(MultipartFile file) {
         validateFile(file); // 1번
         String fileName = UUID.randomUUID().toString();
-        String path = "src/main/resources/images" + fileName;
+        String rootPath = System.getProperty("user.dir");
+        String path = rootPath + "/src/main/resources/images/" + fileName + ".jpg";
+        
         try {
             file.transferTo(new File(path));
+            return "http://localhost:8080"+"/images/"+fileName+".jpg";
         }catch (Exception e){
             throw new IllegalStateException("해당 파일을 저장할 수 없습니다.");
         }
-        return "";
     }
 
 
