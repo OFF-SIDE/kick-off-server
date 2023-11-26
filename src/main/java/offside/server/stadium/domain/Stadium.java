@@ -26,7 +26,7 @@ public class Stadium{
         address = stadiumData.address;
         comment = stadiumData.comment;
         price = stadiumData.price;
-        image = stadiumData.image;
+        image = "";
     }
     
     public Stadium() {

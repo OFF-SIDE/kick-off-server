@@ -7,21 +7,32 @@ import offside.server.stadium.domain.Reservation;
 import offside.server.stadium.domain.Stadium;
 import offside.server.stadium.dto.ReservationDto;
 import offside.server.stadium.dto.StadiumDto;
+import offside.server.stadium.service.FileUploadService;
 import offside.server.stadium.service.StadiumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class StadiumController {
     private final StadiumService stadiumService;
+    private final FileUploadService fileUploadService;
+
     @Autowired
-    public StadiumController(StadiumService stadiumService) {
+    public StadiumController(StadiumService stadiumService, FileUploadService fileUploadService) {
         this.stadiumService = stadiumService;
+        this.fileUploadService = fileUploadService;
     }
-    
+
+    @PostMapping("img")
+    @ResponseBody
+    public String postImg(@RequestBody MultipartFile file){
+        return fileUploadService.store(file);
+    }
+
     // Stadium 등록 요청
     @PostMapping("/stadium")
     @ResponseBody
@@ -29,6 +40,9 @@ public class StadiumController {
         if(bindingResult.hasErrors()){
             throw new IllegalArgumentException(bindingResult.getFieldError().getDefaultMessage());
         }
+        // 서버에 이미지 저장
+
+
         stadiumService.validateLocation(stadiumData.location);
         
         return stadiumService.registerStadium(stadiumData);

@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import org.springframework.web.multipart.MultipartFile;
 
 
 public class StadiumDto {
@@ -32,14 +33,12 @@ public class StadiumDto {
     @NotBlank
     public Integer price;
 
-    @NotNull
-    @Size(max = 255)
-    public String image;
+    public MultipartFile image;
     
     public StadiumDto() {}
     
     public StadiumDto(String location, String contact_phone, String name, String address,
-        String comment, Integer price, String image) {
+        String comment, Integer price, MultipartFile image) {
         this.location = location;
         this.contact_phone = contact_phone;
         this.name = name;
