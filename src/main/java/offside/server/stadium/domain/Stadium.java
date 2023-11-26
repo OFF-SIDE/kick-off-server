@@ -19,14 +19,14 @@ public class Stadium{
     private String comment;
     private Integer price;
     private String image;
-    public Stadium(StadiumDto stadiumData){
+    public Stadium(StadiumDto stadiumData, String imgUrl){
         location = stadiumData.location;
         contact_phone = stadiumData.contact_phone;
         name = stadiumData.name;
         address = stadiumData.address;
         comment = stadiumData.comment;
         price = stadiumData.price;
-        image = "";
+        image = imgUrl;
     }
     
     public Stadium() {

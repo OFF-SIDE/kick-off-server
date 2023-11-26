@@ -14,22 +14,28 @@ import offside.server.stadium.repository.StadiumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional
 public class StadiumService {
+    private final FileUploadService fileUploadService;
     private final StadiumRepository stadiumRepository;
     private final ReservationRepository reservationRepository;
     
     @Autowired
-    public StadiumService(StadiumRepository stadiumRepository, ReservationRepository reservationRepository) {
+    public StadiumService(StadiumRepository stadiumRepository, ReservationRepository reservationRepository, FileUploadService fileUploadService) {
         this.stadiumRepository = stadiumRepository;
         this.reservationRepository = reservationRepository;
+        this.fileUploadService = fileUploadService;
     }
     
-    public Stadium registerStadium(StadiumDto stadiumData){
+    public Stadium registerStadium(StadiumDto stadiumData, MultipartFile file){
+        // 이미지 저장
+        String imgUrl = fileUploadService.store(file);
+
         // stadium 등록
-        Stadium stadium = new Stadium(stadiumData);
+        Stadium stadium = new Stadium(stadiumData,imgUrl);
         return stadiumRepository.save(stadium);
     }
     

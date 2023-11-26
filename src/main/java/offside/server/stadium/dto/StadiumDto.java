@@ -32,8 +32,6 @@ public class StadiumDto {
 
     @NotBlank
     public Integer price;
-
-    public MultipartFile image;
     
     public StadiumDto() {}
     
@@ -45,6 +43,5 @@ public class StadiumDto {
         this.address = address;
         this.comment = comment;
         this.price = price;
-        this.image = image;
     }
 }

@@ -36,16 +36,13 @@ public class StadiumController {
     // Stadium 등록 요청
     @PostMapping("/stadium")
     @ResponseBody
-    public Stadium registerStadium(@RequestBody @Valid StadiumDto stadiumData, BindingResult bindingResult){
+    public Stadium registerStadium(@RequestBody @Valid StadiumDto stadiumData, BindingResult bindingResult, @RequestParam("img") MultipartFile file){
         if(bindingResult.hasErrors()){
             throw new IllegalArgumentException(bindingResult.getFieldError().getDefaultMessage());
         }
-        // 서버에 이미지 저장
-
-
         stadiumService.validateLocation(stadiumData.location);
         
-        return stadiumService.registerStadium(stadiumData);
+        return stadiumService.registerStadium(stadiumData, file);
     }
     
     // Stadium 목록 요청 (with 장소, 사람(전화번호))
@@ -72,7 +69,6 @@ public class StadiumController {
         }
         return stadiumService.stadiumReservation(reservationData);
     }
-
 
     // Stadium 예약 현황 보기
     @ExceptionHandler(IllegalArgumentException.class)
