@@ -27,8 +27,8 @@ class StadiumRepositoryTest {
     @Test
     void 구장_등록() {
         // given
-        Stadium stadium1 = new Stadium(new StadiumDto("마포구","01038665979","서강축구장","신수동","굿굿",""));
-        Stadium stadium2 = new Stadium(new StadiumDto("마포구","01028994421","서강대후문운동장","마포구 대흥동","잔디 좋아요",""));
+        Stadium stadium1 = new Stadium(new StadiumDto("마포구","01038665979","서강축구장","신수동","굿굿",15000,""));
+        Stadium stadium2 = new Stadium(new StadiumDto("마포구","01028994421","서강대후문운동장","마포구 대흥동","잔디 좋아요",30000,""));
 
         // when
         stadiumRepository.save(stadium1);
@@ -68,8 +68,8 @@ class StadiumRepositoryTest {
     @Test
     void 구장_id로_삭제() {
         // given
-        Stadium stadium1 = new Stadium(new StadiumDto("마포구","01038665979","서강축구장","신수동","굿굿",""));
-        Stadium stadium2 = new Stadium(new StadiumDto("마포구","01028994421","서강대후문운동장","마포구 대흥동","잔디 좋아요",""));
+        Stadium stadium1 = new Stadium(new StadiumDto("마포구","01038665979","서강축구장","신수동","굿굿",50000,""));
+        Stadium stadium2 = new Stadium(new StadiumDto("마포구","01028994421","서강대후문운동장","마포구 대흥동","잔디 좋아요",15000,""));
         stadiumRepository.save(stadium1);
         stadiumRepository.save(stadium2);
         

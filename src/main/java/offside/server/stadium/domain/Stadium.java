@@ -10,12 +10,13 @@ import offside.server.stadium.dto.StadiumDto;
 public class Stadium{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int stadium_id;
+    private Integer stadium_id;
     private String location;
     private String contact_phone;
     private String name;
     private String address;
     private String comment;
+    private Integer price;
     private String image;
     public Stadium(StadiumDto stadiumData){
         location = stadiumData.location;
@@ -23,6 +24,7 @@ public class Stadium{
         name = stadiumData.name;
         address = stadiumData.address;
         comment = stadiumData.comment;
+        price = stadiumData.price;
         image = stadiumData.image;
     }
     

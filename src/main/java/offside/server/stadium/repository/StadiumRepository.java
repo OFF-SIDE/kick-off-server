@@ -51,8 +51,11 @@ public class StadiumRepository implements StadiumRepositoryInterface {
             .setParameter("contact_phone", contact_phone).setParameter("location",location)
             .getResultList();
     }
-    
-    
+    @Override
+    public List<Stadium> findAll(){
+        return em.createQuery("select m from Stadium as m",Stadium.class)
+            .getResultList();
+    }
     
     @Override
     public void deleteStadiumById(Integer stadium_id) {

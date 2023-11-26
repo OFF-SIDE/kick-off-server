@@ -28,7 +28,10 @@ public class StadiumDto {
     @NotBlank
     @Size(max = 255)
     public String comment;
-    
+
+    @NotBlank
+    public Integer price;
+
     @NotNull
     @Size(max = 255)
     public String image;
@@ -36,12 +39,13 @@ public class StadiumDto {
     public StadiumDto() {}
     
     public StadiumDto(String location, String contact_phone, String name, String address,
-        String comment, String image) {
+        String comment, Integer price, String image) {
         this.location = location;
         this.contact_phone = contact_phone;
         this.name = name;
         this.address = address;
         this.comment = comment;
+        this.price = price;
         this.image = image;
     }
 }
