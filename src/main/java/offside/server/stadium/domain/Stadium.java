@@ -84,4 +84,12 @@ public class Stadium{
     public void setImage(String image) {
         this.image = image;
     }
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
 }

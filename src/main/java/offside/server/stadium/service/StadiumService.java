@@ -32,9 +32,19 @@ public class StadiumService {
             return stadiumRepository.findByContactPhone(contact_phone);
         } else if (location != "" && contact_phone == "") {
             return stadiumRepository.findByLocation(location);
-        } else{
-            return stadiumRepository.findByBoth(location, contact_phone);
+        } else if (location.isEmpty()) { // 둘 다 비었을 때, (contact_phone.isEmpty() 는 이미 true)
+            return stadiumRepository.findAll();
+        }else{
+                return stadiumRepository.findByBoth(location, contact_phone);
         }
+    }
+
+    public Stadium getStadiumInfo(Integer stadiumId) throws IllegalArgumentException{
+        Optional<Stadium> stadium = stadiumRepository.findById(stadiumId);
+        if(stadium.isEmpty()){
+            throw new IllegalArgumentException("해당 구장이 없습니다.");
+        }
+        return stadium.get();
     }
     
     public void validateLocation(String location) throws IllegalArgumentException {

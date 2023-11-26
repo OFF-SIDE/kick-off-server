@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### DATABASE ###
-**/*.properties
+src/main/resources/*.properties

@@ -11,5 +11,6 @@ public interface StadiumRepositoryInterface {
     List<Stadium> findByContactPhone(String location);
     List<Stadium> findByBoth(String location, String contact_phone);
     void deleteStadiumById(Integer stadium_id);
+    List<Stadium> findAll();
 }
 
