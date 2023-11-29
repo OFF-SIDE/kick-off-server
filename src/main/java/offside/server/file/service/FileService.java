@@ -34,7 +34,7 @@ public class FileService {
         
         try {
             file.transferTo(new File(newFilePath));
-            return serverUrl + "/image/"+newFileName;
+            return serverUrl + "/image/" +newFileName;
         }catch (Exception e){
             throw new IllegalStateException("해당 파일을 저장할 수 없습니다.");
         }

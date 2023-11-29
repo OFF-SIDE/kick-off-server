@@ -35,7 +35,7 @@ public class StadiumService {
         String imgUrl = fileService.store(file);
 
         // stadium 등록
-        Stadium stadium = new Stadium(stadiumData,imgUrl);
+        Stadium stadium = new Stadium(stadiumData);
         return stadiumRepository.save(stadium);
     }
     

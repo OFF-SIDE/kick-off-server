@@ -12,7 +12,6 @@ public class Reservation {
     private Integer reservation_id;
     private Integer stadium_id;
     private String date;
-
     private String time;
     private String user_name;
     private String user_phone;
