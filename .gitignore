@@ -38,3 +38,6 @@ out/
 
 ### DATABASE ###
 src/main/resources/*.properties
+
+### Image
+src/main/static/image/*
