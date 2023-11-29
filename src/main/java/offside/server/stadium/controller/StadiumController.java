@@ -7,7 +7,7 @@ import offside.server.stadium.domain.Reservation;
 import offside.server.stadium.domain.Stadium;
 import offside.server.stadium.dto.ReservationDto;
 import offside.server.stadium.dto.StadiumDto;
-import offside.server.stadium.service.FileUploadService;
+import offside.server.file.service.FileService;
 import offside.server.stadium.service.StadiumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,18 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class StadiumController {
     private final StadiumService stadiumService;
-    private final FileUploadService fileUploadService;
 
     @Autowired
-    public StadiumController(StadiumService stadiumService, FileUploadService fileUploadService) {
+    public StadiumController(StadiumService stadiumService) {
         this.stadiumService = stadiumService;
-        this.fileUploadService = fileUploadService;
-    }
-
-    @PostMapping("/img")
-    @ResponseBody
-    public String postImg(@RequestParam("file") MultipartFile file){
-        return fileUploadService.store(file);
     }
 
     // Stadium 등록 요청
