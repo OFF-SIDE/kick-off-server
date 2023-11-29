@@ -28,10 +28,10 @@ public class FileService {
         
         String newFileName = UUID.randomUUID().toString() + this.getExtensionFromFile(file);
         String newFilePath = System.getProperty("user.dir") + "/src/main/resources/static/image/" + newFileName;
+        System.out.println(newFilePath);
         
         try {
             file.transferTo(new File(newFilePath));
-            String ServerUrl;
             return serverUrl + "/image/"+newFileName;
         }catch (Exception e){
             throw new IllegalStateException("해당 파일을 저장할 수 없습니다.");

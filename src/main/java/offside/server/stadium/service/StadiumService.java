@@ -48,7 +48,7 @@ public class StadiumService {
         } else if (location.isEmpty()) { // 둘 다 비었을 때, (contact_phone.isEmpty() 는 이미 true)
             return stadiumRepository.findAll();
         }else{
-                return stadiumRepository.findByBoth(location, contact_phone);
+            return stadiumRepository.findByBoth(location, contact_phone);
         }
     }
 
