@@ -7,14 +7,13 @@ import offside.server.stadium.domain.Reservation;
 import offside.server.stadium.domain.Stadium;
 import offside.server.stadium.dto.ReservationDto;
 import offside.server.stadium.dto.StadiumDto;
-import offside.server.file.service.FileService;
+import offside.server.stadium.dto.StadiumInfoDto;
 import offside.server.stadium.service.StadiumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class StadiumController {
@@ -28,13 +27,13 @@ public class StadiumController {
     // Stadium 등록 요청
     @PostMapping("/stadium")
     @ResponseBody
-    public Stadium registerStadium(@RequestBody @Valid StadiumDto stadiumData, BindingResult bindingResult, @RequestParam("img") MultipartFile file){
+    public Stadium registerStadium(@RequestBody @Valid StadiumDto stadiumData, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             throw new IllegalArgumentException(bindingResult.getFieldError().getDefaultMessage());
         }
         stadiumService.validateLocation(stadiumData.location);
         
-        return stadiumService.registerStadium(stadiumData, file);
+        return stadiumService.registerStadium(stadiumData);
     }
     
     // Stadium 목록 요청 (with 장소, 사람(전화번호))
@@ -48,8 +47,8 @@ public class StadiumController {
     // Stadium의 상세 정보 요청 -> 특정 구장을 클릭했을 경우
     @GetMapping("/stadium/{stadiumId}")
     @ResponseBody
-    public Stadium requestStadiumInfo(@PathVariable("stadiumId") Integer stadiumId){
-        return stadiumService.getStadiumInfo(stadiumId);
+    public StadiumInfoDto requestStadiumInfo(@PathVariable("stadiumId") Integer stadiumId, @RequestParam("date") String date){
+        return stadiumService.getStadiumInfo(stadiumId, date);
     }
     
     // Stadium 예약하기

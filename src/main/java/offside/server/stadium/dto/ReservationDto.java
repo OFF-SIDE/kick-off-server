@@ -23,4 +23,12 @@ public class ReservationDto {
     public String user_phone;
 
     public ReservationDto(){}
+
+    public ReservationDto(Integer stadium_id, String date, String time, String user_name, String user_phone){
+        this.stadium_id = stadium_id;
+        this.date = date;
+        this.time = time;
+        this.user_name = user_name;
+        this.user_phone = user_phone;
+    }
 }

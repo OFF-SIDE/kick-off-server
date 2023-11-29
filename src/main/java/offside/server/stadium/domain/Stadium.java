@@ -19,20 +19,21 @@ public class Stadium{
     private String comment;
     private Integer price;
     private String image;
-    public Stadium(StadiumDto stadiumData, String imgUrl){
+
+    public Stadium(StadiumDto stadiumData){
         location = stadiumData.location;
         contact_phone = stadiumData.contact_phone;
         name = stadiumData.name;
         address = stadiumData.address;
         comment = stadiumData.comment;
         price = stadiumData.price;
-        image = imgUrl;
+        image = stadiumData.image;
     }
     
     public Stadium() {
     }
     
-    public int getStadium_id() {
+    public Integer getStadium_id() {
         return stadium_id;
     }
     
@@ -94,5 +95,9 @@ public class Stadium{
     public void setPrice(Integer price) {
         this.price = price;
     }
+
+    public StadiumDto toStadiumDto(){
+        return new StadiumDto(location,contact_phone,name,address,comment,price,image);
+    };
 
 }

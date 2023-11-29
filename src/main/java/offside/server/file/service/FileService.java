@@ -30,23 +30,12 @@ public class FileService {
         
         String newFileName = UUID.randomUUID().toString() + this.getExtensionFromFile(file);
         String newFilePath = imageDirectoryPath + newFileName;
-        System.out.println(newFilePath);
         
         try {
             file.transferTo(new File(newFilePath));
             return serverUrl + "/image/" +newFileName;
         }catch (Exception e){
             throw new IllegalStateException("해당 파일을 저장할 수 없습니다.");
-        }
-    }
-    
-    public Resource getImage(String imageName) {
-        System.out.println(System.getProperty("user.dir") + "/image/" + imageName);
-        Resource resource = resourceLoader.getResource("../../../image/" + imageName);
-        if(resource.exists()){
-            return resource;
-        }else {
-            throw new IllegalStateException("해당 경로에 파일을 찾을 수 없습니다");
         }
     }
     

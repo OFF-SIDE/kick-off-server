@@ -26,17 +26,24 @@ public class ReservationRepository implements ReservationRepositoryInterface{
     }
 
     @Override
-    public Optional<Reservation> findById(Integer reservation_id){
+    public Optional<Reservation> findById(Integer reservation_id) {
         return Optional.ofNullable(em.find(Reservation.class, reservation_id));
     }
 
     @Override
     public Optional<Reservation> findByDateAndTime(Integer stadium_id, String date, String time){
-        return Optional.ofNullable(em.createQuery("select m from Reservation as m where m.stadium_id = :stadium_id and m.date = :date and m.time = :time",Reservation.class)
-                .setParameter("stadium_id", stadium_id)
+        return Optional.ofNullable(em.createQuery("select m from Reservation as m where m.stadium_id = :stadiumId AND m.date = :date AND m.time = :time",Reservation.class)
+                .setParameter("stadiumId", stadium_id)
                 .setParameter("date",date)
                 .setParameter("time",time)
                 .getSingleResult());
+    }
+
+    @Override
+    public List<Reservation> findByStadiumIdAndDate(Integer stadium_id, String date){
+        return em.createQuery("select m from Reservation as m where m.stadium_id = :stadium_id and m.date = :date", Reservation.class)
+                .setParameter("stadium_id",stadium_id).setParameter("date",date)
+                .getResultList();
     }
 
     @Override

@@ -32,16 +32,29 @@ public class StadiumDto {
 
     @NotBlank
     public Integer price;
+
+    public String image;
     
     public StadiumDto() {}
+
+    public StadiumDto(StadiumDto stadiumData) {
+        this.location = stadiumData.location;
+        this.contact_phone = stadiumData.contact_phone;
+        this.name = stadiumData.name;
+        this.address = stadiumData.address;
+        this.comment = stadiumData.comment;
+        this.price = stadiumData.price;
+        this.image = stadiumData.image;
+    }
     
     public StadiumDto(String location, String contact_phone, String name, String address,
-        String comment, Integer price, MultipartFile image) {
+        String comment, Integer price, String image) {
         this.location = location;
         this.contact_phone = contact_phone;
         this.name = name;
         this.address = address;
         this.comment = comment;
         this.price = price;
+        this.image = image;
     }
 }
