@@ -17,6 +17,8 @@ public class FileService {
     
     @Value("${server.url}")
     private String serverUrl;
+    @Value("${server.imageDirectoryPath}")
+    private String imageDirectoryPath;
 
     @Autowired
     public FileService(ResourceLoader resourceLoader) {
@@ -27,7 +29,7 @@ public class FileService {
         validateFile(file); // 1번
         
         String newFileName = UUID.randomUUID().toString() + this.getExtensionFromFile(file);
-        String newFilePath = System.getProperty("user.dir") + "/src/main/resources/static/image/" + newFileName;
+        String newFilePath = imageDirectoryPath + newFileName;
         System.out.println(newFilePath);
         
         try {

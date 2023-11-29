@@ -40,4 +40,4 @@ out/
 src/main/resources/*.properties
 
 ### Image
-src/main/static/image/*
+src/main/resources/static/image/*
