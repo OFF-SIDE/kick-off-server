@@ -36,13 +36,13 @@ public class StadiumService {
     public List<Stadium> requestStadium(String location, String contact_phone){
         // if 문으로 다 쪼개서 서로 다른 repo 메소드를 호출
         if (location.isEmpty() && !contact_phone.isEmpty()) {
-            return stadiumRepository.findByContactPhone(contact_phone);
+            return stadiumRepository.findAllByContactPhone(contact_phone);
         } else if (!location.isEmpty() && contact_phone.isEmpty()) {
-            return stadiumRepository.findByLocation(location);
+            return stadiumRepository.findAllByLocation(location);
         } else if (location.isEmpty()) { // 둘 다 비었을 때, (contact_phone.isEmpty() 는 이미 true)
             return stadiumRepository.findAll();
         }else{
-            return stadiumRepository.findByBoth(location, contact_phone);
+            return stadiumRepository.findAllByLocationAndContactPhone(location, contact_phone);
         }
     }
 
@@ -66,7 +66,7 @@ public class StadiumService {
     }
     
     public void validateLocation(String location) throws IllegalArgumentException {
-        List<String> availableLocationList = Arrays.asList("마포구","서대문구","영등포구","강남구");
+        final var availableLocationList = Arrays.asList("마포구","서대문구","영등포구","강남구");
         if(!availableLocationList.contains(location)){
             throw new IllegalArgumentException("해당 위치 "+location+"은 등록될 수 없습니다.");
         }
@@ -74,7 +74,7 @@ public class StadiumService {
 
     public Reservation stadiumReservation(ReservationDto reservationData){
         // 1. 해당 시간에 예약이 있는가
-        Optional<Reservation> reservation = reservationRepository.findByDateAndTime(reservationData.stadium_id,reservationData.date,reservationData.time);
+        Optional<Reservation> reservation = reservationRepository.findByDateAndTime(reservationData.stadiumId,reservationData.date,reservationData.time);
 
         System.out.println("find는 이전에는 되나요?");
 

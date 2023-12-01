@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 
 public class ReservationDto {
     @NotBlank
-    public Integer stadium_id;
+    public Integer stadiumId;
     @NotBlank
     @Size(max = 6)
     public String date;
@@ -16,19 +16,19 @@ public class ReservationDto {
 
     @NotBlank
     @Size(max = 255)
-    public String user_name;
+    public String userName;
 
     @NotBlank
     @Size(max = 255)
-    public String user_phone;
+    public String userPhone;
 
     public ReservationDto(){}
 
     public ReservationDto(Integer stadium_id, String date, String time, String user_name, String user_phone){
-        this.stadium_id = stadium_id;
+        this.stadiumId = stadium_id;
         this.date = date;
         this.time = time;
-        this.user_name = user_name;
-        this.user_phone = user_phone;
+        this.userName = user_name;
+        this.userPhone = user_phone;
     }
 }

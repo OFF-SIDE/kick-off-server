@@ -31,7 +31,7 @@ class StadiumControllerTest {
         Stadium stadium1 = stadiumService.registerStadium(stadiumdata1);
 
         // when
-        Integer stadium1_id = stadium1.getStadium_id();
+        Integer stadium1_id = stadium1.getId();
         ReservationDto reservationData1 = new ReservationDto(stadium1_id, "231129","1300","강성준","0102899");
         ReservationDto reservationData2 = new ReservationDto(stadium1_id, "231129","1700","정한샘","0104421");
         ReservationDto reservationData3 = new ReservationDto(stadium1_id, "231130","1200","이창민","0103866");

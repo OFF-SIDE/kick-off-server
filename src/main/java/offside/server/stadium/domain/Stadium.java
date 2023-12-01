@@ -11,9 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class Stadium{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer stadium_id;
+    private Integer id;
+    
     private String location;
-    private String contact_phone;
+    private String contactPhone;
     private String name;
     private String address;
     private String comment;
@@ -22,7 +23,7 @@ public class Stadium{
 
     public Stadium(StadiumDto stadiumData){
         location = stadiumData.location;
-        contact_phone = stadiumData.contact_phone;
+        contactPhone = stadiumData.contactPhone;
         name = stadiumData.name;
         address = stadiumData.address;
         comment = stadiumData.comment;
@@ -33,12 +34,27 @@ public class Stadium{
     public Stadium() {
     }
     
-    public Integer getStadium_id() {
-        return stadium_id;
+    public Stadium(String location, String contactPhone, String name, String address,
+        String comment, Integer price, String image) {
+        this.location = location;
+        this.contactPhone = contactPhone;
+        this.name = name;
+        this.address = address;
+        this.comment = comment;
+        this.price = price;
+        this.image = image;
     }
     
-    public void setStadium_id(int stadium_id) {
-        this.stadium_id = stadium_id;
+    public StadiumDto toStadiumDto(){
+        return new StadiumDto(location,contactPhone,name,address,comment,price,image);
+    };
+    
+    public Integer getId() {
+        return id;
+    }
+    
+    public void setId(Integer id) {
+        this.id = id;
     }
     
     public String getLocation() {
@@ -49,12 +65,12 @@ public class Stadium{
         this.location = location;
     }
     
-    public String getContact_phone() {
-        return contact_phone;
+    public String getContactPhone() {
+        return contactPhone;
     }
     
-    public void setContact_phone(String contact_phone) {
-        this.contact_phone = contact_phone;
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
     }
     
     public String getName() {
@@ -81,6 +97,14 @@ public class Stadium{
         this.comment = comment;
     }
     
+    public Integer getPrice() {
+        return price;
+    }
+    
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+    
     public String getImage() {
         return image;
     }
@@ -88,16 +112,4 @@ public class Stadium{
     public void setImage(String image) {
         this.image = image;
     }
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public StadiumDto toStadiumDto(){
-        return new StadiumDto(location,contact_phone,name,address,comment,price,image);
-    };
-
 }
