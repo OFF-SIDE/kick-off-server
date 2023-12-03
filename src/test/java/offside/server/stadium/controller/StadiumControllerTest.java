@@ -44,7 +44,7 @@ class StadiumControllerTest {
 
         // then
         List<String> expectedAvailableTime = Arrays.asList("1000","1100","1200","1400","1500","1600","1800","1900","2000","2100","2200");
-        StadiumInfoDto stadiumInfo = stadiumService.getStadiumInfo(stadium1_id, "231129");
+        StadiumInfoDto stadiumInfo = stadiumService.getStadiumInfo(stadium1_id);
         assertThat(stadiumInfo.getAvailableTime()).isEqualTo(expectedAvailableTime);
     }
 }

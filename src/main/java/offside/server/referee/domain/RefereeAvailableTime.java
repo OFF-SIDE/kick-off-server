@@ -13,6 +13,7 @@ public class RefereeAvailableTime {
     private Integer refereeId;
     private String time;
 
+    public RefereeAvailableTime() {}
 
     public RefereeAvailableTime(Integer refereeId, String time) {
         this.refereeId = refereeId;

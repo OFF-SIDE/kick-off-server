@@ -7,6 +7,7 @@ import offside.server.referee.domain.RefereeAvailableTime;
 import offside.server.referee.dto.RegisterRefereeDto;
 import offside.server.referee.repository.RefereeAvailableTimeRepository;
 import offside.server.referee.repository.RefereeRepository;
+import offside.server.referee.repository.RefereeReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +20,13 @@ import java.util.List;
 public class RefereeService {
     private final RefereeAvailableTimeRepository refereeAvailableTimeRepository;
     private final RefereeRepository refereeRepository;
+    private final RefereeReservationRepository refereeReservationRepository;
 
     @Autowired
-    public RefereeService(RefereeRepository refereeRepository, RefereeAvailableTimeRepository refereeAvailableTimeRepository) {
+    public RefereeService(RefereeRepository refereeRepository, RefereeAvailableTimeRepository refereeAvailableTimeRepository, RefereeReservationRepository refereeReservationRepository) {
         this.refereeRepository = refereeRepository;
         this.refereeAvailableTimeRepository = refereeAvailableTimeRepository;
+        this.refereeReservationRepository = refereeReservationRepository;
     }
 
     public Referee registerReferee(RegisterRefereeDto refereeData){
@@ -50,6 +53,20 @@ public class RefereeService {
         }
     }
 
+    public List<Referee> findAllRefereeByLocationAndDate(String location, String date) {
+        // 0. availableTime 에서 해당 date, location에 가능한 목록 가져오기
+        final var refereeList = refereeRepository.findAllByLocation(location);
+        final var availableReferee = new ArrayList<Referee>();
+        refereeList.forEach(referee ->
+        {
+            var availableTime = refereeAvailableTimeRepository.findAllByRefereeId(referee.getId());
+            var reservedTime = refereeReservationRepository.findAllByRefereeIdAndDate(referee.getId(),date);
+            if (availableTime.size() - reservedTime.size() > 0){
+                availableReferee.add(referee);
+            }
+        });
+        return availableReferee;
+    }
 }
 
 

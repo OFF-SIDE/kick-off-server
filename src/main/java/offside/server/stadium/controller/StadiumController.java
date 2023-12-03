@@ -47,8 +47,10 @@ public class StadiumController {
     // Stadium의 상세 정보 요청 -> 특정 구장을 클릭했을 경우
     @GetMapping("/stadium/{stadiumId}")
     @ResponseBody
-    public StadiumInfoDto requestStadiumInfo(@PathVariable("stadiumId") Integer stadiumId, @RequestParam("date") String date){
-        return stadiumService.getStadiumInfo(stadiumId, date);
+    public StadiumInfoDto requestStadiumInfo(@PathVariable("stadiumId") Integer stadiumId){
+        if(stadiumId == null)
+            throw new IllegalArgumentException("stadiumId가 주어지지 않았습니다");
+        return stadiumService.getStadiumInfo(stadiumId);
     }
     
     // Stadium 예약하기
@@ -65,6 +67,10 @@ public class StadiumController {
     @GetMapping("/stadium/reservation")
     @ResponseBody
     public List<String> requestStadiumReservation(@RequestParam("stadiumId") Integer stadiumId, @RequestParam("date") String date){
+        if(stadiumId == null)
+            throw new IllegalArgumentException("stadiumId가 주어지지 않았습니다");
+        if(date == null)
+            throw new IllegalArgumentException("date가 주어지지 않았습니다");
         return stadiumService.getStadiumReservationList(stadiumId, date);
     }
 

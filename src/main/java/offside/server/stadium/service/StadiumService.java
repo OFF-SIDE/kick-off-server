@@ -2,6 +2,7 @@ package offside.server.stadium.service;
 
 import jakarta.transaction.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,7 +50,7 @@ public class StadiumService {
         }
     }
 
-    public StadiumInfoDto getStadiumInfo(Integer stadiumId, String date) throws IllegalArgumentException{
+    public StadiumInfoDto getStadiumInfo(Integer stadiumId) throws IllegalArgumentException{
         // 1. 구장 id 로 구장 객체 가져오기
         final var stadium = stadiumRepository.findById(stadiumId);
         if(stadium.isEmpty()){
@@ -59,6 +60,7 @@ public class StadiumService {
 
         // 2. reservation 테이블에서 해당 구장 +예 약 date를 넣어서 1, 231205 ===> 13:00, 15:00 -> 12:00, 14:00, 16:00~~
         // 10:00 ~ 22:00 (1시간 단위)
+        final var date = getDateFromToday();
         final var availableTime = this.getStadiumReservationList(stadiumId, date);
 
         return new StadiumInfoDto(stadiumData, availableTime);
@@ -72,7 +74,6 @@ public class StadiumService {
     }
 
     public Reservation stadiumReservation(ReservationDto reservationData){
-
         // 1. 해당 시간에 예약이 있는가
         final var reservation = reservationRepository.findByStadiumIdAndDateAndTime(reservationData.stadiumId,reservationData.date,reservationData.time);
 
@@ -86,6 +87,7 @@ public class StadiumService {
         }
     }
 
+    /* date 날짜 기준으로 해당 stadium의 예약 가능한 날짜를 구함 ( 전체 날짜 - 예약된 날짜) */
     public List<String> getStadiumReservationList(Integer stadiumId, String date) {
         final var reservationList = reservationRepository.findAllByStadiumIdAndDate(stadiumId,date);
         final var availableTime = new ArrayList<>(defaultAvailableTime);
@@ -93,5 +95,11 @@ public class StadiumService {
             availableTime.remove(reservation.getTime());
         });
         return availableTime;
+    }
+
+    public String getDateFromToday(){
+        var now = LocalDate.now().toString(); // 2023-12-03
+        var newNow = now.replace("-","");
+        return newNow.substring(2);
     }
 }
