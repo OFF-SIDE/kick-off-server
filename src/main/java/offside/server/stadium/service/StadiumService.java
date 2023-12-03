@@ -22,7 +22,8 @@ import org.springframework.stereotype.Service;
 public class StadiumService {
     private final StadiumRepository stadiumRepository;
     private final ReservationRepository reservationRepository;
-    
+    private final List<String> defaultAvailableTime = new ArrayList<>(Arrays.asList("1000","1100","1200","1300","1400","1500","1600","1700","1800","1900","2000","2100","2200"));
+
     @Autowired
     public StadiumService(StadiumRepository stadiumRepository, ReservationRepository reservationRepository) {
         this.stadiumRepository = stadiumRepository;
@@ -48,7 +49,7 @@ public class StadiumService {
         }
     }
 
-    public StadiumInfoDto getStadiumInfo(Integer stadium_id, String date) throws IllegalArgumentException{
+    public StadiumInfoDto getStadiumInfo(Integer stadiumId, String date) throws IllegalArgumentException{
         // 1. 구장 id 로 구장 객체 가져오기
         final var stadium = stadiumRepository.findById(stadiumId);
         if(stadium.isEmpty()){
@@ -56,13 +57,9 @@ public class StadiumService {
         }
         StadiumDto stadiumData = stadium.get().toStadiumDto();
 
-        final var availableTime = new ArrayList<>(Arrays.asList("1000","1100","1200","1300","1400","1500","1600","1700","1800","1900","2000","2100","2200"));
-        // 2. reservation 테이블에서 해당 구장 + 예약 date를 넣어서 1, 231205 ===> 13:00, 15:00 -> 12:00, 14:00, 16:00~~
+        // 2. reservation 테이블에서 해당 구장 +예 약 date를 넣어서 1, 231205 ===> 13:00, 15:00 -> 12:00, 14:00, 16:00~~
         // 10:00 ~ 22:00 (1시간 단위)
-        final var reservationList = reservationRepository.findAllByStadiumIdAndDate(stadium_id,date);
-        reservationList.forEach(reservation -> {
-            availableTime.remove(reservation.getTime());
-        });
+        final var availableTime = this.getStadiumReservationList(stadiumId, date);
 
         return new StadiumInfoDto(stadiumData, availableTime);
     }
@@ -88,5 +85,13 @@ public class StadiumService {
             return reservationRepository.save(newReservation);
         }
     }
-    
+
+    public List<String> getStadiumReservationList(Integer stadiumId, String date) {
+        final var reservationList = reservationRepository.findAllByStadiumIdAndDate(stadiumId,date);
+        final var availableTime = new ArrayList<>(defaultAvailableTime);
+        reservationList.forEach(reservation -> {
+            availableTime.remove(reservation.getTime());
+        });
+        return availableTime;
+    }
 }

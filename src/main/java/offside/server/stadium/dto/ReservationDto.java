@@ -1,11 +1,13 @@
 package offside.server.stadium.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class ReservationDto {
-    @NotBlank
+    @NotNull
     public Integer stadiumId;
+
     @NotBlank
     @Size(max = 6)
     public String date;
