@@ -1,5 +1,6 @@
 package offside.server.stadium.controller;
 
+import jakarta.transaction.Transactional;
 import offside.server.stadium.domain.Stadium;
 import offside.server.stadium.dto.ReservationDto;
 import offside.server.stadium.dto.StadiumDto;
@@ -15,6 +16,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class StadiumControllerTest {
     private StadiumService stadiumService;
 

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Transactional
 public interface StadiumRepository extends JpaRepository<Stadium, Integer> {
-    Optional<Stadium> findById(Integer stadiumId);
     List<Stadium> findAllByLocation(String location);
     List<Stadium> findAllByContactPhone(String location);
     List<Stadium> findAllByLocationAndContactPhone(String location, String contactPhone);
