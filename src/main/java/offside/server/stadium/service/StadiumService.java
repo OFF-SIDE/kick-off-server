@@ -50,7 +50,7 @@ public class StadiumService {
 
     public StadiumInfoDto getStadiumInfo(Integer stadium_id, String date) throws IllegalArgumentException{
         // 1. 구장 id 로 구장 객체 가져오기
-        final var stadium = stadiumRepository.findById(stadium_id);
+        final var stadium = stadiumRepository.findById(stadiumId);
         if(stadium.isEmpty()){
             throw new IllegalArgumentException("해당 구장이 없습니다.");
         }

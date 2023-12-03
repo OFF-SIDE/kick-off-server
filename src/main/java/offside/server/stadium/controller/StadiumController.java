@@ -62,6 +62,13 @@ public class StadiumController {
     }
 
     // Stadium 예약 현황 보기
+    @GetMapping("/stadium/reservation")
+    @ResponseBody
+    public List<String> requestStadiumReservation(@RequestParam("stadiumId") Integer stadiumId, @RequestParam("date") String date){
+        return stadiumService.getStadiumReservationList(stadiumId, date);
+    }
+
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException exception){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
