@@ -30,7 +30,7 @@ public class StadiumDto {
     @Size(max = 255)
     public String comment;
 
-    @NotBlank
+    @NotNull
     public Integer price;
 
     public String image;
