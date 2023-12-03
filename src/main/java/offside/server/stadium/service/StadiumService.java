@@ -57,7 +57,7 @@ public class StadiumService {
         List<String> availableTime = Arrays.asList("1000","1100","1200","1300","1400","1500","1600","1700","1800","1900","2000","2100","2200");
         // 2. reservation 테이블에서 해당 구장 + 예약 date를 넣어서 1, 231205 ===> 13:00, 15:00 -> 12:00, 14:00, 16:00~~
         // 10:00 ~ 22:00 (1시간 단위)
-        List<Reservation> reservationList = reservationRepository.findByStadiumIdAndDate(stadium_id,date);
+        final var reservationList = reservationRepository.findAllByStadiumIdAndDate(stadium_id,date);
         reservationList.forEach(reservation -> {
             availableTime.remove(reservation.getTime());
         });
@@ -74,9 +74,7 @@ public class StadiumService {
 
     public Reservation stadiumReservation(ReservationDto reservationData){
         // 1. 해당 시간에 예약이 있는가
-        Optional<Reservation> reservation = reservationRepository.findByDateAndTime(reservationData.stadiumId,reservationData.date,reservationData.time);
-
-        System.out.println("find는 이전에는 되나요?");
+        final var reservation = reservationRepository.findByStadiumIdAndDateAndTime(reservationData.stadiumId,reservationData.date,reservationData.time);
 
         // 2-0. 있으면 오류
         if(reservation.isPresent()){
