@@ -39,7 +39,7 @@ public class StadiumController {
     // Stadium 목록 요청 (with 장소, 사람(전화번호))
     @GetMapping("/stadium")
     @ResponseBody
-    public List<Stadium> requestStadium(@RequestParam("location") String location, @RequestParam("contact_phone") String contact_number){
+    public List<Stadium> requestStadium(@RequestParam("location") String location, @RequestParam("contactPhone") String contact_number){
         // 서비스단에 해당 조건에 맞는 stadium을 달라고 요청
         return stadiumService.requestStadium(location,contact_number);
     }
