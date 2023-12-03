@@ -15,8 +15,9 @@ public class Referee {
     private String name;
     private String comment;
     private Integer price;
-    private String image;
 
+    private String image;
+    public Referee(){}
     public Referee(RegisterRefereeDto refereeData){
         this.location = refereeData.location;
         this.contactPhone = refereeData.contactPhone;

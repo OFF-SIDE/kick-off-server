@@ -36,4 +36,9 @@ class StadiumServiceTest {
         assertThat(createdStadium1.getName()).isEqualTo(stadiumDto1.getName());
         assertThat(createdStadium2.getComment()).isEqualTo(stadiumDto2.getComment());
     }
+
+    @Test
+    void 날짜가_string_으로_변하는지() {
+        assertThat(stadiumService.getDateFromToday()).isEqualTo("231203");
+    }
 }
