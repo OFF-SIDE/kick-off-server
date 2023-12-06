@@ -24,12 +24,14 @@ import org.springframework.stereotype.Service;
 public class StadiumService {
     private final StadiumRepository stadiumRepository;
     private final ReservationRepository reservationRepository;
+    private final UtilService utilService;
     private final List<String> defaultAvailableTime = new ArrayList<>(Arrays.asList("1000","1100","1200","1300","1400","1500","1600","1700","1800","1900","2000","2100","2200"));
 
     @Autowired
-    public StadiumService(StadiumRepository stadiumRepository, ReservationRepository reservationRepository) {
+    public StadiumService(StadiumRepository stadiumRepository, ReservationRepository reservationRepository,UtilService utilService) {
         this.stadiumRepository = stadiumRepository;
         this.reservationRepository = reservationRepository;
+        this.utilService = utilService;
     }
     
     public Stadium registerStadium(StadiumDto stadiumData){
@@ -91,11 +93,7 @@ public class StadiumService {
     /* date 날짜 기준으로 해당 stadium의 예약 가능한 날짜를 구함 ( 전체 날짜 - 예약된 날짜) */
     public List<String> getStadiumReservationList(Integer stadiumId, String date) {
         final var reservationList = reservationRepository.findAllByStadiumIdAndDate(stadiumId,date);
-        final var availableTime = new ArrayList<>(defaultAvailableTime);
-        reservationList.forEach(reservation -> {
-            availableTime.remove(reservation.getTime());
-        });
-        return availableTime;
+        return reservationList.stream().map(Reservation::getTime).toList();
     }
 
 }

@@ -2,9 +2,12 @@ package offside.server.referee.controller;
 
 import jakarta.validation.Valid;
 import offside.server.referee.domain.Referee;
+import offside.server.referee.domain.RefereeReservation;
 import offside.server.referee.dto.RegisterRefereeDto;
+import offside.server.referee.dto.ReservationRefereeDto;
 import offside.server.referee.service.RefereeService;
 import offside.server.stadium.service.StadiumService;
+import offside.server.util.service.UtilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +20,13 @@ import java.util.List;
 public class RefereeController {
     private final RefereeService refereeService;
     private final StadiumService stadiumService;
+    private final UtilService utilService;
 
     @Autowired
-    public RefereeController(RefereeService refereeService,StadiumService stadiumService) {
+    public RefereeController(RefereeService refereeService,StadiumService stadiumService,UtilService utilService) {
         this.refereeService = refereeService;
         this.stadiumService = stadiumService;
+        this.utilService = utilService;
     }
 
     // 심판 등록
@@ -42,17 +47,31 @@ public class RefereeController {
             throw new IllegalArgumentException("stadiumId가 주어지지 않았습니다");
         stadiumService.validateLocation(location);
         if(date == null)
-            date = stadiumService.getDateFromToday();
+            date = utilService.getDateFromToday();
 
         return refereeService.findAllRefereeByLocationAndDate(location,date);
     }
 
+    // 하나의 심판 예약 가능 시간 보기 (by Date)
+    @GetMapping("referee/{refereeId}")
+    @ResponseBody
+    public List<String> getRefereeAvailableTimes(@PathVariable("refereeId") Integer refereeId, @RequestParam("date") String date){
+        if(date == null)
+            date = utilService.getDateFromToday();
+        utilService.validateDate(date);
 
+        return refereeService.findAvailableTimes(refereeId, date);
+    }
 
-    // 심판 예약 가능 시간 보기 (by Date)
-
-
-
+    // 심판 예약
+    @PostMapping("referee/reservation")
+    @ResponseBody
+    public RefereeReservation reservationReferee(@RequestBody @Valid ReservationRefereeDto reservationRefereeData, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new IllegalArgumentException(bindingResult.getFieldError().getDefaultMessage());
+        }
+        return refereeService.reservationReferee(reservationRefereeData);
+    }
 
     // Error Handler
     @ExceptionHandler(IllegalArgumentException.class)

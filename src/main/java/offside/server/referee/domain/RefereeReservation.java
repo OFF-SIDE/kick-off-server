@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import offside.server.referee.dto.ReservationRefereeDto;
 
 @Entity
 public class RefereeReservation {
@@ -12,6 +13,10 @@ public class RefereeReservation {
     private Integer id;
     private Integer refereeId;
     private String date;
+    private String time;
+    private String userPhone;
+    private String userName;
+    private String comment;
 
     public RefereeReservation(){}
 
@@ -22,6 +27,15 @@ public class RefereeReservation {
         this.userPhone = userPhone;
         this.userName = userName;
         this.comment = comment;
+    }
+
+    public RefereeReservation(ReservationRefereeDto reservationRefereeData) {
+        this.refereeId = reservationRefereeData.refereeId;
+        this.date = reservationRefereeData.date;
+        this.time = reservationRefereeData.time;
+        this.userPhone = reservationRefereeData.userPhone;
+        this.userName = reservationRefereeData.userName;
+        this.comment = reservationRefereeData.comment;
     }
 
     public Integer getRefereeId(){
@@ -72,10 +86,6 @@ public class RefereeReservation {
         this.comment = comment;
     }
 
-
-    private String time;
-    private String userPhone;
-    private String userName;
 
 
 }

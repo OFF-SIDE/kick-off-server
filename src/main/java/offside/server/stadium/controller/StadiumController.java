@@ -63,7 +63,7 @@ public class StadiumController {
         return stadiumService.stadiumReservation(reservationData);
     }
 
-    // Stadium 예약 현황 보기
+    // Stadium 예약 현황 보기 ---> 불가능한 시간을 return
     @GetMapping("/stadium/reservation")
     @ResponseBody
     public List<String> requestStadiumReservation(@RequestParam("stadiumId") Integer stadiumId, @RequestParam("date") String date){
