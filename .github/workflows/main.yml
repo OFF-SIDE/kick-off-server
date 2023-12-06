@@ -1,0 +1,25 @@
+name: Deploy to Remote Server
+
+on:
+  push:
+    branches:
+      - main # 여기에 자신이 사용하는 브랜치 이름을 넣어주세요
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.SSH_HOSTS }}
+          name: deploy-key
+
+      - name: Execute shell script on remote server
+        run: |
+          ssh -o StrictHostKeyChecking=no -i $HOME/.ssh/deploy-key ubuntu@3.34.126.188 'bash -s' < kick-off-server/cd.sh'
