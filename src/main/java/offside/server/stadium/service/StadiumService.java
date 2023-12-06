@@ -15,6 +15,7 @@ import offside.server.stadium.dto.StadiumDto;
 import offside.server.stadium.dto.StadiumInfoDto;
 import offside.server.stadium.repository.ReservationRepository;
 import offside.server.stadium.repository.StadiumRepository;
+import offside.server.util.service.UtilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +61,7 @@ public class StadiumService {
 
         // 2. reservation 테이블에서 해당 구장 +예 약 date를 넣어서 1, 231205 ===> 13:00, 15:00 -> 12:00, 14:00, 16:00~~
         // 10:00 ~ 22:00 (1시간 단위)
-        final var date = getDateFromToday();
+        final var date = utilService.getDateFromToday();
         final var availableTime = this.getStadiumReservationList(stadiumId, date);
 
         return new StadiumInfoDto(stadiumData, availableTime);
@@ -97,9 +98,4 @@ public class StadiumService {
         return availableTime;
     }
 
-    public String getDateFromToday(){
-        var now = LocalDate.now().toString(); // 2023-12-03
-        var newNow = now.replace("-","");
-        return newNow.substring(2);
-    }
 }

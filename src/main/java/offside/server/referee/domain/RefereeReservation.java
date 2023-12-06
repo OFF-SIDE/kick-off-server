@@ -15,12 +15,13 @@ public class RefereeReservation {
 
     public RefereeReservation(){}
 
-    public RefereeReservation(Integer refereeId, String date, String time, String userPhone, String userName) {
+    public RefereeReservation(Integer refereeId, String date, String time, String userPhone, String userName, String comment) {
         this.refereeId = refereeId;
         this.date = date;
         this.time = time;
         this.userPhone = userPhone;
         this.userName = userName;
+        this.comment = comment;
     }
 
     public Integer getRefereeId(){
@@ -62,6 +63,15 @@ public class RefereeReservation {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
 
     private String time;
     private String userPhone;

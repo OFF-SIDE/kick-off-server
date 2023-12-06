@@ -1,5 +1,6 @@
 package offside.server.stadium.service;
 
+import offside.server.util.service.UtilService;
 import org.junit.jupiter.api.Assertions;
 import static org.assertj.core.api.Assertions.*;
 import jakarta.transaction.Transactional;
@@ -14,10 +15,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 @Transactional
 class StadiumServiceTest {
     private final StadiumService stadiumService;
+    private final UtilService utilService;
     
     @Autowired
-    public StadiumServiceTest(StadiumService stadiumService) {
+    public StadiumServiceTest(StadiumService stadiumService, UtilService utilService) {
         this.stadiumService = stadiumService;
+        this.utilService = utilService;
     }
     
     @Test
@@ -39,6 +42,6 @@ class StadiumServiceTest {
 
     @Test
     void 날짜가_string_으로_변하는지() {
-        assertThat(stadiumService.getDateFromToday()).isEqualTo("231203");
+        assertThat(utilService.getDateFromToday()).isEqualTo("231203");
     }
 }
