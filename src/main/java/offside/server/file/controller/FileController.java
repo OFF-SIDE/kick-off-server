@@ -1,5 +1,6 @@
 package offside.server.file.controller;
 
+import offside.server.file.dto.UrlResponseDto;
 import offside.server.file.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,8 @@ public class FileController {
     
     @PostMapping("image")
     @ResponseBody
-    public String postImg(@RequestParam("file") MultipartFile file){
-        return fileService.store(file);
+    public UrlResponseDto postImg(@RequestParam("file") MultipartFile file){
+        return new UrlResponseDto(fileService.store(file));
     }
 
     @ExceptionHandler(IllegalStateException.class)
