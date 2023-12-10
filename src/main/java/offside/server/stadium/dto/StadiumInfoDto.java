@@ -3,15 +3,20 @@ package offside.server.stadium.dto;
 import java.util.List;
 
 public class StadiumInfoDto extends StadiumDto{
-    private List<String> availableTime;
+    private List<String> reservationList;
+    private List<String> matchingQ;
 
-    public List<String> getAvailableTime() {
-        return availableTime;
+    public List<String> getReservationList() {
+        
+        return reservationList;
     }
 
-    public StadiumInfoDto(StadiumDto stadiumData, List<String> _availableTime) {
+    public StadiumInfoDto(StadiumDto stadiumData, List<String> reservationList, List<String> matchingQ) {
         super(stadiumData);
-        availableTime = _availableTime;
+        this.reservationList = reservationList;
+        this.matchingQ = matchingQ;
     }
+    
+    
 }
 

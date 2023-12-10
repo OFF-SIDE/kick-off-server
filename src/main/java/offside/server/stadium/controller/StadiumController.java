@@ -5,9 +5,12 @@ import java.util.List;
 
 import offside.server.stadium.domain.Reservation;
 import offside.server.stadium.domain.Stadium;
+import offside.server.stadium.dto.MatchingDto;
+import offside.server.stadium.dto.MatchingReservationDto;
 import offside.server.stadium.dto.ReservationDto;
 import offside.server.stadium.dto.StadiumDto;
 import offside.server.stadium.dto.StadiumInfoDto;
+import offside.server.stadium.dto.StadiumReservationInfoDto;
 import offside.server.stadium.service.StadiumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -66,15 +69,30 @@ public class StadiumController {
     // Stadium 예약 현황 보기 ---> 불가능한 시간을 return
     @GetMapping("/stadium/reservation")
     @ResponseBody
-    public List<String> requestStadiumReservation(@RequestParam("stadiumId") Integer stadiumId, @RequestParam("date") String date){
+    public StadiumReservationInfoDto requestStadiumReservation(@RequestParam("stadiumId") Integer stadiumId, @RequestParam("date") String date){
         if(stadiumId == null)
             throw new IllegalArgumentException("stadiumId가 주어지지 않았습니다");
         if(date == null)
             throw new IllegalArgumentException("date가 주어지지 않았습니다");
+        
+        
         return stadiumService.getStadiumReservationList(stadiumId, date);
     }
 
-
+    // 매칭 등록
+    @PostMapping("/stadium/matching")
+    @ResponseBody
+    public MatchingReservationDto matchingReservation(@RequestBody @Valid MatchingDto matchingData, BindingResult bindingResult){
+        if(bindingResult.hasErrors()) {
+            throw new IllegalArgumentException(bindingResult.getFieldError().getDefaultMessage());
+        }
+        return stadiumService.matchingReservation(matchingData);
+    }
+    
+    
+    
+    
+    
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException exception){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
