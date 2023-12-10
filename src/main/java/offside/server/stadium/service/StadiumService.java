@@ -13,6 +13,7 @@ import offside.server.stadium.domain.Reservation;
 import offside.server.stadium.domain.Stadium;
 import offside.server.stadium.dto.MatchingDto;
 import offside.server.stadium.dto.MatchingReservationDto;
+import offside.server.stadium.dto.ReservationAndStadiumDto;
 import offside.server.stadium.dto.ReservationDto;
 import offside.server.stadium.dto.StadiumDto;
 import offside.server.stadium.dto.StadiumInfoDto;
@@ -135,5 +136,18 @@ public class StadiumService {
             return new MatchingReservationDto(matchingRepository.save(newMatching));
         }
     }
-
+    
+    public List<Reservation> requestListOfReservationInfo(Integer stadiumId, String date, String time) {
+        return reservationRepository.findAllByStadiumIdAndDateAndTime(stadiumId, date,time);
+    }
+    
+    public List<ReservationAndStadiumDto> requestMyReservationInfo(String userPhone) {
+        // Reservation 정보를 가져오기
+        final var reservationList = reservationRepository.findAllByUserPhoneOrderByDateDescTimeDesc(userPhone);
+        
+        return reservationList.stream().map(reservation -> {
+            final var stadium = stadiumRepository.findById(reservation.getStadiumId());
+            return new ReservationAndStadiumDto(reservation, stadium.get());
+        }).toList();
+    }
 }

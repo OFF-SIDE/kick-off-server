@@ -15,4 +15,7 @@ import java.util.Optional;
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
     List<Reservation> findAllByStadiumIdAndDate(Integer stadium_id, String date);
     Optional<Reservation> findByStadiumIdAndDateAndTime(Integer stadium_id, String date, String time);
+    List<Reservation> findAllByStadiumIdAndDateAndTime(Integer stadium_id, String date, String time);
+    List<Reservation> findAllByUserPhone(String userPhone);
+    List<Reservation> findAllByUserPhoneOrderByDateDescTimeDesc(String userPhone);
 }

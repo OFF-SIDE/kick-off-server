@@ -7,11 +7,13 @@ import offside.server.stadium.domain.Reservation;
 import offside.server.stadium.domain.Stadium;
 import offside.server.stadium.dto.MatchingDto;
 import offside.server.stadium.dto.MatchingReservationDto;
+import offside.server.stadium.dto.ReservationAndStadiumDto;
 import offside.server.stadium.dto.ReservationDto;
 import offside.server.stadium.dto.StadiumDto;
 import offside.server.stadium.dto.StadiumInfoDto;
 import offside.server.stadium.dto.StadiumReservationInfoDto;
 import offside.server.stadium.service.StadiumService;
+import offside.server.util.service.UtilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +23,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class StadiumController {
     private final StadiumService stadiumService;
+    private final UtilService utilService;
 
     @Autowired
-    public StadiumController(StadiumService stadiumService) {
+    public StadiumController(StadiumService stadiumService, UtilService utilService) {
         this.stadiumService = stadiumService;
+        this.utilService = utilService;
     }
 
     // Stadium 등록 요청
@@ -73,12 +77,25 @@ public class StadiumController {
         if(stadiumId == null)
             throw new IllegalArgumentException("stadiumId가 주어지지 않았습니다");
         if(date == null)
-            throw new IllegalArgumentException("date가 주어지지 않았습니다");
-        
+            date = utilService.getDateFromToday();
         
         return stadiumService.getStadiumReservationList(stadiumId, date);
     }
 
+    //구장 측에서 보는 예약자 정보
+    @GetMapping("/stadium/reservation/user")
+    @ResponseBody
+    public List<Reservation> requestListOfReservationInfo(@RequestParam("stadiumId") Integer stadiumId,  @RequestParam("date") String date, @RequestParam("time")String time){
+        if(stadiumId == null)
+            throw new IllegalArgumentException("stadiumId가 주어지지 않았습니다");
+        if(date == null)
+            date = utilService.getDateFromToday();
+        if(time == null)
+            throw new IllegalArgumentException("time이 주어지지 않았습니다");
+        
+        return stadiumService.requestListOfReservationInfo(stadiumId,date,time);
+    }
+    
     // 매칭 등록
     @PostMapping("/stadium/matching")
     @ResponseBody
@@ -89,7 +106,15 @@ public class StadiumController {
         return stadiumService.matchingReservation(matchingData);
     }
     
-    
+    // 내 예약 관리 페이지 보기
+    @GetMapping("/stadium/myReservation")
+    @ResponseBody
+    public List<ReservationAndStadiumDto> requestMyReservationInfo(@RequestParam("userPhone") String userPhone){
+        if(userPhone == null)
+            throw new IllegalArgumentException("userPhone이 주어지지 않았습니다");
+        
+        return stadiumService.requestMyReservationInfo(userPhone);
+    }
     
     
     
