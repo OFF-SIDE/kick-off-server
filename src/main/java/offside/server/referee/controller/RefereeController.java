@@ -45,7 +45,6 @@ public class RefereeController {
     public List<Referee> findRefereeByLocation(@RequestParam("location") String location, @RequestParam("date") String date){
         if(location == null)
             throw new IllegalArgumentException("stadiumId가 주어지지 않았습니다");
-        stadiumService.validateLocation(location);
         if(date == null)
             date = utilService.getDateFromToday();
 

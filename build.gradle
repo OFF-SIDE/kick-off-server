@@ -25,7 +25,7 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
-
+	implementation 'org.json:json:20210307'
 }
 
 tasks.named('test') {

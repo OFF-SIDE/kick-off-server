@@ -20,6 +20,7 @@ public class Stadium{
     private String comment;
     private Integer price;
     private String image;
+    private String externalUrl;
 
     public Stadium(StadiumDto stadiumData){
         location = stadiumData.location;
@@ -29,13 +30,13 @@ public class Stadium{
         comment = stadiumData.comment;
         price = stadiumData.price;
         image = stadiumData.image;
+        externalUrl = stadiumData.externalUrl;
     }
     
-    public Stadium() {
-    }
+    public Stadium() {}
     
     public Stadium(String location, String contactPhone, String name, String address,
-        String comment, Integer price, String image) {
+        String comment, Integer price, String image,String externalUrl) {
         this.location = location;
         this.contactPhone = contactPhone;
         this.name = name;
@@ -43,6 +44,7 @@ public class Stadium{
         this.comment = comment;
         this.price = price;
         this.image = image;
+        this.externalUrl = externalUrl;
     }
     
     public StadiumDto toStadiumDto(){

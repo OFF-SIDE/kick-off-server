@@ -77,13 +77,7 @@ public class StadiumService {
 
         return new StadiumInfoDto(stadiumData, reservationList, matchingQ);
     }
-    
-    public void validateLocation(String location) throws IllegalArgumentException {
-        final var availableLocationList = Arrays.asList("마포구","서대문구","영등포구","강남구");
-        if(!availableLocationList.contains(location)){
-            throw new IllegalArgumentException("해당 위치 "+location+"은 등록될 수 없습니다.");
-        }
-    }
+
 
     public Reservation stadiumReservation(ReservationDto reservationData){
         // 1. 해당 시간에 예약이 있는가
@@ -150,4 +144,5 @@ public class StadiumService {
             return new ReservationAndStadiumDto(reservation, stadium.get());
         }).toList();
     }
+    
 }

@@ -1,6 +1,7 @@
 package offside.server.stadium.controller;
 
 import jakarta.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 import offside.server.stadium.domain.Reservation;
@@ -12,6 +13,7 @@ import offside.server.stadium.dto.ReservationDto;
 import offside.server.stadium.dto.StadiumDto;
 import offside.server.stadium.dto.StadiumInfoDto;
 import offside.server.stadium.dto.StadiumReservationInfoDto;
+import offside.server.stadium.service.StadiumCrawlerService;
 import offside.server.stadium.service.StadiumService;
 import offside.server.util.service.UtilService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +26,13 @@ import org.springframework.web.bind.annotation.*;
 public class StadiumController {
     private final StadiumService stadiumService;
     private final UtilService utilService;
+    private final StadiumCrawlerService stadiumCrawlerService;
 
     @Autowired
-    public StadiumController(StadiumService stadiumService, UtilService utilService) {
+    public StadiumController(StadiumService stadiumService, UtilService utilService,StadiumCrawlerService stadiumCrawlerService) {
         this.stadiumService = stadiumService;
         this.utilService = utilService;
+        this.stadiumCrawlerService = stadiumCrawlerService;
     }
 
     // Stadium 등록 요청
@@ -38,7 +42,6 @@ public class StadiumController {
         if(bindingResult.hasErrors()){
             throw new IllegalArgumentException(bindingResult.getFieldError().getDefaultMessage());
         }
-        stadiumService.validateLocation(stadiumData.location);
         
         return stadiumService.registerStadium(stadiumData);
     }
@@ -116,7 +119,12 @@ public class StadiumController {
         return stadiumService.requestMyReservationInfo(userPhone);
     }
     
-    
+    @GetMapping("/stadium/apitest")
+    @ResponseBody
+    public String apiTest() throws IOException {
+        stadiumCrawlerService.testAPI();
+        return "hihi";
+    }
     
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException exception){
@@ -125,6 +133,11 @@ public class StadiumController {
 
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<String> handleIllegalStateException(IllegalStateException exception){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exception.getMessage());
+    }
+    
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<String> handleIllegalStateException(IOException exception){
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exception.getMessage());
     }
 }

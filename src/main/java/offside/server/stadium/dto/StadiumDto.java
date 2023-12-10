@@ -34,6 +34,8 @@ public class StadiumDto {
 
     public String image;
     
+    public String externalUrl;
+    
     public StadiumDto() {}
 
     public StadiumDto(StadiumDto stadiumData) {
