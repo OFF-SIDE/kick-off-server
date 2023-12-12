@@ -94,7 +94,7 @@ public class StadiumController {
     //구장 측에서 보는 예약자 정보
     @GetMapping("/stadium/reservation/user")
     @ResponseBody
-    public List<Reservation> requestListOfReservationInfo(@RequestParam("stadiumId") Integer stadiumId,  @RequestParam("date") String date, @RequestParam("time")String time){
+    public Reservation requestListOfReservationInfo(@RequestParam("stadiumId") Integer stadiumId,  @RequestParam("date") String date, @RequestParam("time")String time){
         if(stadiumId == null)
             throw new IllegalArgumentException("stadiumId가 주어지지 않았습니다");
         if(date == null || date == "")

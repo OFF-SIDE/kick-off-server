@@ -131,8 +131,12 @@ public class StadiumService {
         }
     }
     
-    public List<Reservation> requestListOfReservationInfo(Integer stadiumId, String date, String time) {
-        return reservationRepository.findAllByStadiumIdAndDateAndTime(stadiumId, date,time);
+    public Reservation requestListOfReservationInfo(Integer stadiumId, String date, String time) {
+        final var reservation =  reservationRepository.findAllByStadiumIdAndDateAndTime(stadiumId, date,time);
+        if(reservation.isEmpty()){
+            throw new IllegalStateException("해당하는 예약자가 없습니다.");
+        }
+        return reservation.get(0);
     }
     
     public List<ReservationAndStadiumDto> requestMyReservationInfo(String userPhone) {
