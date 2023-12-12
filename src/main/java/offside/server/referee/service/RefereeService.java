@@ -93,6 +93,13 @@ public class RefereeService {
             return refereeReservationRepository.save(newReservation);
         }
     }
+    
+    public Referee getRefereeInfo(Integer refereeId) {
+        final var referee = refereeRepository.findById(refereeId);
+        if(referee.isEmpty())
+            throw new IllegalStateException("해당하는 referee가 존재하지 않습니다.");
+        return referee.get();
+    }
 }
 
 

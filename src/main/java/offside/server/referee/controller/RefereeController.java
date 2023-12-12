@@ -38,6 +38,14 @@ public class RefereeController {
         }
         return refereeService.registerReferee(refereeData);
     }
+    
+    @GetMapping("/referee/{refereeId}")
+    @ResponseBody
+    public Referee getRefereeInfo(@PathVariable("refereeId") Integer refereeId){
+        if(refereeId == null)
+            throw new IllegalArgumentException("refereeId 가 비어 있습니다.");
+        return refereeService.getRefereeInfo(refereeId);
+    }
 
     // 심판 목록 가져오기 (by location)
     @GetMapping("referee")
@@ -52,9 +60,9 @@ public class RefereeController {
     }
 
     // 하나의 심판 예약 가능 시간 보기 (by Date)
-    @GetMapping("referee/{refereeId}")
+    @GetMapping("referee/reservation")
     @ResponseBody
-    public List<String> getRefereeAvailableTimes(@PathVariable("refereeId") Integer refereeId, @RequestParam("date") String date){
+    public List<String> getRefereeAvailableTimes(@RequestParam("refereeId") Integer refereeId, @RequestParam("date") String date){
         if(date == null)
             date = utilService.getDateFromToday();
         utilService.validateDate(date);
