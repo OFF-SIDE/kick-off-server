@@ -51,20 +51,17 @@ public class RefereeController {
     // 심판 목록 가져오기 (by location)
     @GetMapping("referee")
     @ResponseBody
-    public List<Referee> findRefereeByLocation(@RequestParam("location") String location, @RequestParam("date") String date){
-        if(location == null)
-            throw new IllegalArgumentException("stadiumId가 주어지지 않았습니다");
-        if(date == null)
+    public List<Referee> findRefereeByLocation(@RequestParam("date") String date){
+        if(date == null || date == "")
             date = utilService.getDateFromToday();
-
-        return refereeService.findAllRefereeByLocationAndDate(location,date);
+        return refereeService.findRefereeListByDate(date);
     }
 
     // 하나의 심판 예약 가능 시간 보기 (by Date)
     @GetMapping("referee/reservation")
     @ResponseBody
     public RefereeAvailableTimeDto getRefereeAvailableTimes(@RequestParam("refereeId") Integer refereeId, @RequestParam("date") String date){
-        if(date == null)
+        if(date == null || date == "")
             date = utilService.getDateFromToday();
         utilService.validateDate(date);
 

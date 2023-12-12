@@ -57,9 +57,9 @@ public class RefereeService {
         }
     }
 
-    public List<Referee> findAllRefereeByLocationAndDate(String location, String date) {
+    public List<Referee> findRefereeListByDate(String date) {
         // 0. availableTime 에서 해당 date, location에 가능한 목록 가져오기
-        final var refereeList = refereeRepository.findAllByLocation(location);
+        final var refereeList = refereeRepository.findAll();
         final var availableReferee = new ArrayList<Referee>();
         refereeList.forEach(referee ->
         {
