@@ -3,6 +3,7 @@ package offside.server.referee.controller;
 import jakarta.validation.Valid;
 import offside.server.referee.domain.Referee;
 import offside.server.referee.domain.RefereeReservation;
+import offside.server.referee.dto.RefereeAvailableTimeDto;
 import offside.server.referee.dto.RegisterRefereeDto;
 import offside.server.referee.dto.ReservationRefereeDto;
 import offside.server.referee.service.RefereeService;
@@ -62,7 +63,7 @@ public class RefereeController {
     // 하나의 심판 예약 가능 시간 보기 (by Date)
     @GetMapping("referee/reservation")
     @ResponseBody
-    public List<String> getRefereeAvailableTimes(@RequestParam("refereeId") Integer refereeId, @RequestParam("date") String date){
+    public RefereeAvailableTimeDto getRefereeAvailableTimes(@RequestParam("refereeId") Integer refereeId, @RequestParam("date") String date){
         if(date == null)
             date = utilService.getDateFromToday();
         utilService.validateDate(date);

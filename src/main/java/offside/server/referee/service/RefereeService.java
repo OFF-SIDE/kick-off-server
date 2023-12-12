@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import offside.server.referee.domain.Referee;
 import offside.server.referee.domain.RefereeAvailableTime;
 import offside.server.referee.domain.RefereeReservation;
+import offside.server.referee.dto.RefereeAvailableTimeDto;
 import offside.server.referee.dto.RegisterRefereeDto;
 import offside.server.referee.dto.ReservationRefereeDto;
 import offside.server.referee.repository.RefereeAvailableTimeRepository;
@@ -71,7 +72,7 @@ public class RefereeService {
         return availableReferee;
     }
 
-    public List<String> findAvailableTimes(Integer refereeId, String date) {
+    public RefereeAvailableTimeDto findAvailableTimes(Integer refereeId, String date) {
         // 1. 해당 referee가 본인이 예약 가능하다고 말한 시간대 불러오기
         var availableTime = refereeAvailableTimeRepository.findAllByRefereeId(refereeId);
         var availableTimeList = availableTime.stream().map(RefereeAvailableTime::getTime).toList();
@@ -79,7 +80,7 @@ public class RefereeService {
         var reservedTime = refereeReservationRepository.findAllByRefereeIdAndDate(refereeId, date);
         var reservedTimeList = reservedTime.stream().map(RefereeReservation::getTime).toList();
         // 3. return (1 - 2)
-        return availableTimeList.stream().filter(avt -> !reservedTimeList.contains(avt)).toList();
+        return new RefereeAvailableTimeDto(availableTimeList.stream().filter(avt -> !reservedTimeList.contains(avt)).toList());
     }
 
     // referee 예약
