@@ -1,11 +1,11 @@
 package offside.server.stadium.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import offside.server.stadium.dto.StadiumDto;
-import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 public class Stadium{
@@ -17,6 +17,8 @@ public class Stadium{
     private String contactPhone;
     private String name;
     private String address;
+    
+    @Column(length = 2047)
     private String comment;
     private Integer price;
     private String image;

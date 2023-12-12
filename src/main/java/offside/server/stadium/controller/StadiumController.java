@@ -52,7 +52,12 @@ public class StadiumController {
     @ResponseBody
     public List<Stadium> requestStadium(@RequestParam("location") String location, @RequestParam("contactPhone") String contact_number){
         // 서비스단에 해당 조건에 맞는 stadium을 달라고 요청
-        return stadiumService.requestStadium(location,contact_number);
+        final var stadiumList = stadiumService.requestStadium(location,contact_number);
+        if(stadiumList.size() > 30){
+            return stadiumList.subList(0,30);
+        } else{
+            return stadiumList;
+        }
     }
     
     // Stadium의 상세 정보 요청 -> 특정 구장을 클릭했을 경우

@@ -12,8 +12,7 @@ public class StadiumDto {
     public String location;
     
     @NotBlank(message = "contact_number is required")
-    @Size(max = 16)
-    @Pattern(regexp = "^[0-9]+$", message = "전화번호는 숫자만 적어주세요")
+    @Size(max = 255)
     public String contactPhone;
     
     @NotBlank(message = "Name is required")
@@ -26,7 +25,7 @@ public class StadiumDto {
     public String address;
     
     @NotBlank
-    @Size(max = 255)
+    @Size(max = 2047)
     public String comment;
 
     @NotNull
