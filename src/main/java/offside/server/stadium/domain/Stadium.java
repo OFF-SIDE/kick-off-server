@@ -48,7 +48,7 @@ public class Stadium{
     }
     
     public StadiumDto toStadiumDto(){
-        return new StadiumDto(location,contactPhone,name,address,comment,price,image);
+        return new StadiumDto(location,contactPhone,name,address,comment,price,image,externalUrl);
     };
     
     public Integer getId() {
@@ -113,5 +113,13 @@ public class Stadium{
     
     public void setImage(String image) {
         this.image = image;
+    }
+    
+    public String getExternalUrl() {
+        return externalUrl;
+    }
+    
+    public void setExternalUrl(String externalUrl) {
+        this.externalUrl = externalUrl;
     }
 }

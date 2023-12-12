@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
+import offside.server.stadium.domain.Matching;
 import offside.server.stadium.domain.Reservation;
 import offside.server.stadium.domain.Stadium;
 import offside.server.stadium.dto.MatchingDto;
@@ -79,7 +80,7 @@ public class StadiumController {
     public StadiumReservationInfoDto requestStadiumReservation(@RequestParam("stadiumId") Integer stadiumId, @RequestParam("date") String date){
         if(stadiumId == null)
             throw new IllegalArgumentException("stadiumId가 주어지지 않았습니다");
-        if(date == null)
+        if(date == null || date == "")
             date = utilService.getDateFromToday();
         
         return stadiumService.getStadiumReservationList(stadiumId, date);
@@ -91,7 +92,7 @@ public class StadiumController {
     public List<Reservation> requestListOfReservationInfo(@RequestParam("stadiumId") Integer stadiumId,  @RequestParam("date") String date, @RequestParam("time")String time){
         if(stadiumId == null)
             throw new IllegalArgumentException("stadiumId가 주어지지 않았습니다");
-        if(date == null)
+        if(date == null || date == "")
             date = utilService.getDateFromToday();
         if(time == null)
             throw new IllegalArgumentException("time이 주어지지 않았습니다");
@@ -108,6 +109,20 @@ public class StadiumController {
         }
         return stadiumService.matchingReservation(matchingData);
     }
+    
+    @GetMapping("/stadium/matching")
+    @ResponseBody
+    public Matching getMatchingInfo(@RequestParam("stadiumId") Integer stadiumId,  @RequestParam("date") String date, @RequestParam("time")String time){
+        if(stadiumId == null)
+            throw new IllegalArgumentException("stadiumId가 주어지지 않았습니다");
+        if(date == null || date == "")
+            date = utilService.getDateFromToday();
+        if(time == null)
+            throw new IllegalArgumentException("time이 주어지지 않았습니다");
+        
+        return stadiumService.getMatchingInfo(stadiumId, date, time);
+    }
+    
     
     // 내 예약 관리 페이지 보기
     @GetMapping("/stadium/myReservation")

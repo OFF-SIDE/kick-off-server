@@ -48,16 +48,16 @@ public class StadiumService {
         return stadiumRepository.save(stadium);
     }
     
-    public List<Stadium> requestStadium(String location, String contact_phone){
+    public List<Stadium> requestStadium(String location, String contactPhone){
         // if 문으로 다 쪼개서 서로 다른 repo 메소드를 호출
-        if (location.isEmpty() && !contact_phone.isEmpty()) {
-            return stadiumRepository.findAllByContactPhone(contact_phone);
-        } else if (!location.isEmpty() && contact_phone.isEmpty()) {
+        if (location.isEmpty() && !contactPhone.isEmpty()) {
+            return stadiumRepository.findAllByContactPhone(contactPhone);
+        } else if (!location.isEmpty() && contactPhone.isEmpty()) {
             return stadiumRepository.findAllByLocation(location);
         } else if (location.isEmpty()) { // 둘 다 비었을 때, (contact_phone.isEmpty() 는 이미 true)
             return stadiumRepository.findAll();
         }else{
-            return stadiumRepository.findAllByLocationAndContactPhone(location, contact_phone);
+            return stadiumRepository.findAllByLocationAndContactPhone(location, contactPhone);
         }
     }
 
@@ -145,4 +145,12 @@ public class StadiumService {
         }).toList();
     }
     
+    public Matching getMatchingInfo(Integer stadiumId, String date, String time) {
+        // matching 정보 가져오기
+        final var matchingInfo = matchingRepository.findByStadiumIdAndDateAndTime(stadiumId, date, time);
+        if(matchingInfo.isEmpty()){
+            throw new IllegalStateException("현재 해당하는 조건에 매칭 대기중인 사람이 없습니다.");
+        }
+        return matchingInfo.get();
+    }
 }

@@ -46,10 +46,11 @@ public class StadiumDto {
         this.comment = stadiumData.comment;
         this.price = stadiumData.price;
         this.image = stadiumData.image;
+        this.externalUrl = stadiumData.externalUrl;
     }
     
     public StadiumDto(String location, String contactPhone, String name, String address,
-        String comment, Integer price, String image) {
+        String comment, Integer price, String image, String externalUrl) {
         this.location = location;
         this.contactPhone = contactPhone;
         this.name = name;
@@ -57,6 +58,7 @@ public class StadiumDto {
         this.comment = comment;
         this.price = price;
         this.image = image;
+        this.externalUrl = externalUrl;
     }
     
     public String getLocation() {
@@ -113,5 +115,12 @@ public class StadiumDto {
     
     public void setImage(String image) {
         this.image = image;
+    }
+    
+    public String getExternalUrl() {
+        return externalUrl;
+    }
+    public void setExternalUrl(String externalUrl) {
+        this.externalUrl = externalUrl;
     }
 }
