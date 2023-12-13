@@ -8,9 +8,10 @@ import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
+@EnableJpaAuditing
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
