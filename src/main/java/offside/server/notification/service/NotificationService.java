@@ -16,7 +16,7 @@ public class NotificationService {
     }
     
     public List<Notification> requestNotificationByContactPhone(String contactPhone){
-        return notificationRepository.findAllByContactPhoneOrderByCreatedTimeAsc(contactPhone);
+        return notificationRepository.findAllByContactPhoneOrderByCreatedTimeDesc(contactPhone);
     }
     
     public void createNotification(String contactPhone, String type, String message){
