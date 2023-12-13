@@ -1,13 +1,16 @@
 package offside.server.notification.domain;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +21,7 @@ public class Notification {
     private String message;
     @CreatedDate
     private LocalDateTime createdTime;
+    
     
     public Notification() {
     }
@@ -51,6 +55,14 @@ public class Notification {
     
     public void setMessage(String message) {
         this.message = message;
+    }
+    
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
+    }
+    
+    public void setCreatedTime(LocalDateTime createdTime) {
+        this.createdTime = createdTime;
     }
 }
 

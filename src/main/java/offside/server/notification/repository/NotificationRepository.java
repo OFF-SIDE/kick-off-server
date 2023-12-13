@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Transactional
 public interface NotificationRepository extends JpaRepository<Notification, Integer> {
-    List<Notification> findAllByContactPhoneOrderByCreatedTimeDesc(String contactPhone);
+    List<Notification> findAllByContactPhoneOrderByCreatedTimeAsc(String contactPhone);
 }
