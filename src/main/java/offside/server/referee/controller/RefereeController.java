@@ -1,6 +1,7 @@
 package offside.server.referee.controller;
 
 import jakarta.validation.Valid;
+import offside.server.notification.service.NotificationService;
 import offside.server.referee.domain.Referee;
 import offside.server.referee.domain.RefereeReservation;
 import offside.server.referee.dto.RefereeAvailableTimeDto;
@@ -22,12 +23,14 @@ public class RefereeController {
     private final RefereeService refereeService;
     private final StadiumService stadiumService;
     private final UtilService utilService;
+    private final NotificationService notificationService;
 
     @Autowired
-    public RefereeController(RefereeService refereeService,StadiumService stadiumService,UtilService utilService) {
+    public RefereeController(RefereeService refereeService,StadiumService stadiumService,UtilService utilService,NotificationService notificationService) {
         this.refereeService = refereeService;
         this.stadiumService = stadiumService;
         this.utilService = utilService;
+        this.notificationService = notificationService;
     }
 
     // 심판 등록
@@ -37,7 +40,9 @@ public class RefereeController {
         if(bindingResult.hasErrors()){
             throw new IllegalArgumentException(bindingResult.getFieldError().getDefaultMessage());
         }
-        return refereeService.registerReferee(refereeData);
+        final var referee = refereeService.registerReferee(refereeData);
+        notificationService.createNotification(refereeData.contactPhone,"심판 등록","요청하신 '" + referee.getName()+"' 심판의 등록이 완료되었습니다.");
+        return referee;
     }
     
     @GetMapping("/referee/{refereeId}")
@@ -64,7 +69,6 @@ public class RefereeController {
         if(date == null || date == "")
             date = utilService.getDateFromToday();
         utilService.validateDate(date);
-
         return refereeService.findAvailableTimes(refereeId, date);
     }
 
@@ -75,7 +79,10 @@ public class RefereeController {
         if (bindingResult.hasErrors()) {
             throw new IllegalArgumentException(bindingResult.getFieldError().getDefaultMessage());
         }
-        return refereeService.reservationReferee(reservationRefereeData);
+        final var refereeReservation = refereeService.reservationReferee(reservationRefereeData);
+        notificationService.createNotification(refereeReservation.getUserPhone(),"심판 예약","요청하신 '" + refereeReservation.getUserName()+"' 심판의 예약이 완료되었습니다. 예약 날짜 :"+refereeReservation.getDate() + " 예약 시간 :" + refereeReservation.getTime());
+    
+        return refereeReservation;
     }
 
     // Error Handler

@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
+import offside.server.notification.service.NotificationService;
 import offside.server.stadium.domain.Matching;
 import offside.server.stadium.domain.Reservation;
 import offside.server.stadium.domain.Stadium;
@@ -28,12 +29,14 @@ public class StadiumController {
     private final StadiumService stadiumService;
     private final UtilService utilService;
     private final StadiumCrawlerService stadiumCrawlerService;
+    private final NotificationService notificationService;
 
     @Autowired
-    public StadiumController(StadiumService stadiumService, UtilService utilService,StadiumCrawlerService stadiumCrawlerService) {
+    public StadiumController(StadiumService stadiumService, UtilService utilService,StadiumCrawlerService stadiumCrawlerService,NotificationService notificationService) {
         this.stadiumService = stadiumService;
         this.utilService = utilService;
         this.stadiumCrawlerService = stadiumCrawlerService;
+        this.notificationService = notificationService;
     }
 
     // Stadium 등록 요청
@@ -46,7 +49,9 @@ public class StadiumController {
         if(stadiumData.externalUrl == null)
             stadiumData.externalUrl = "";
         
-        return stadiumService.registerStadium(stadiumData);
+        final var stadium = stadiumService.registerStadium(stadiumData);
+        notificationService.createNotification(stadiumData.contactPhone,"구장 등록","요청하신 '"+ stadium.getName() +"' 구장의 등록이 완료되었습니다.");
+        return stadium;
     }
     
     // Stadium 목록 요청 (with 장소, 사람(전화번호))
@@ -78,7 +83,11 @@ public class StadiumController {
         if(bindingResult.hasErrors()) {
             throw new IllegalArgumentException(bindingResult.getFieldError().getDefaultMessage());
         }
-        return stadiumService.stadiumReservation(reservationData);
+    
+        final var reservation = stadiumService.stadiumReservation(reservationData);
+        final var stadium = stadiumService.getStadiumInfo(reservation.getStadiumId());
+        notificationService.createNotification(reservationData.userPhone,"구장 예약","요청하신 '" + stadium.getName()+"' 구장의 예약이 완료되었습니다. 예약 날짜 :"+reservation.getDate() + " 예약 시간 :" + reservation.getTime());
+        return reservation;
     }
 
     // Stadium 예약 현황 보기 ---> 불가능한 시간을 return
@@ -114,7 +123,17 @@ public class StadiumController {
         if(bindingResult.hasErrors()) {
             throw new IllegalArgumentException(bindingResult.getFieldError().getDefaultMessage());
         }
-        return stadiumService.matchingReservation(matchingData);
+        final var matchingReservation = stadiumService.matchingReservation(matchingData);
+        if(matchingReservation.isMatching){
+            // 매칭이 완료
+            final var stadium = stadiumService.getStadiumInfo(matchingReservation.matchingData.getStadiumId());
+            notificationService.createNotification(matchingData.contactPhone,"매칭 대기 완료","요청하신 '" + stadium.getName()+"' 구장에서의 매칭 등록이 완료되었습니다. 등록 날짜 :"+matchingReservation.matchingData.getDate() + " 등록 시간 :" + matchingReservation.matchingData.getTime());
+        } else{
+            // 예약이 완료
+            final var stadium = stadiumService.getStadiumInfo(matchingReservation.reservationData.getStadiumId());
+            notificationService.createNotification(matchingData.contactPhone,"매칭 완료","요청하신 '" + stadium.getName()+"' 구장에서의 예약이 완료되었습니다. 예약 날짜 :"+matchingReservation.reservationData.getDate() + " 예약 시간 :" + matchingReservation.reservationData.getTime());
+        }
+        return matchingReservation;
     }
     
     @GetMapping("/stadium/matching")
