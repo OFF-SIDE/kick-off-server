@@ -43,6 +43,8 @@ public class StadiumController {
         if(bindingResult.hasErrors()){
             throw new IllegalArgumentException(bindingResult.getFieldError().getDefaultMessage());
         }
+        if(stadiumData.externalUrl == null)
+            stadiumData.externalUrl = "";
         
         return stadiumService.registerStadium(stadiumData);
     }
