@@ -2,6 +2,8 @@ package offside.server.stadium.controller;
 
 import jakarta.validation.Valid;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import offside.server.notification.service.NotificationService;
@@ -60,6 +62,7 @@ public class StadiumController {
     public List<Stadium> requestStadium(@RequestParam("location") String location, @RequestParam("contactPhone") String contact_number){
         // 서비스단에 해당 조건에 맞는 stadium을 달라고 요청
         final var stadiumList = stadiumService.requestStadium(location,contact_number);
+        Collections.reverse(stadiumList);
         if(stadiumList.size() > 30){
             return stadiumList.subList(0,30);
         } else{
