@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import offside.server.notification.service.NotificationService;
 import offside.server.stadium.domain.Matching;
 import offside.server.stadium.domain.Reservation;
 import offside.server.stadium.domain.Stadium;
@@ -32,14 +33,16 @@ public class StadiumService {
     private final ReservationRepository reservationRepository;
     private final UtilService utilService;
     private final MatchingRepository matchingRepository;
+    private final NotificationService notificationService;
     private final List<String> defaultAvailableTime = new ArrayList<>(Arrays.asList("1000","1100","1200","1300","1400","1500","1600","1700","1800","1900","2000","2100","2200"));
 
     @Autowired
-    public StadiumService(StadiumRepository stadiumRepository, ReservationRepository reservationRepository,UtilService utilService, MatchingRepository matchingRepository) {
+    public StadiumService(StadiumRepository stadiumRepository, ReservationRepository reservationRepository,UtilService utilService, MatchingRepository matchingRepository, NotificationService notificationService) {
         this.stadiumRepository = stadiumRepository;
         this.reservationRepository = reservationRepository;
         this.utilService = utilService;
         this.matchingRepository = matchingRepository;
+        this.notificationService = notificationService;
     }
     
     public Stadium registerStadium(StadiumDto stadiumData){
@@ -121,6 +124,10 @@ public class StadiumService {
             reservationRepository.save(reservation1);
             reservationRepository.save(reservation2);
             
+            final var stadium = this.getStadiumInfo(reservation1.getStadiumId());
+            notificationService.createNotification(reservation1.getUserPhone(),"매칭/예약 완료","요청하신 '" + stadium.getName()+"' 구장에서의 매칭이 완료되어 예약 되었습니다. 예약 날짜 :"+reservation1.getDate() + " 예약 시간 :" + reservation1.getTime());
+            notificationService.createNotification(reservation2.getUserPhone(),"매칭/예약 완료","요청하신 '" + stadium.getName()+"' 구장에서의 매칭이 완료되어 예약 되었습니다. 예약 날짜 :"+reservation2.getDate() + " 예약 시간 :" + reservation2.getTime());
+    
             matchingRepository.delete(matching.get());
             
             return new MatchingReservationDto(reservation2);
