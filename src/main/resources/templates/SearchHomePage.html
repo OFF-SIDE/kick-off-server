@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>스포츠 구장 검색 사이트</title>
+  <style>
+    body {
+      background-color: #eee;
+    }
+
+    header {
+      margin-bottom: 50px;
+    }
+
+    .container {
+      width: 80%;
+      min-width: 600px;
+      margin: 0 auto;
+      padding: 10px;
+      text-align: center;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .input-section {
+      margin-bottom: 15px;
+    }
+    .button-section {
+      margin: 15px auto;
+    }
+
+    .button-section button {
+      margin-left: 15px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>주변 지역을 검색해 보세요!</h1>
+  </header>
+  <form th:action="@{'/search'}" method="get">
+    <div class="input-section">
+      <label for="location">지역 선택:</label>
+      <select id="location" name="location">
+        <option value="전체">전체</option>
+        <option value="마포구">마포구</option>
+        <option value="영등포구">영등포구</option>
+        <option value="성동구">성동구</option>
+        <option value="강동구">강동구</option>
+        <option value="동작구">동작구</option>
+        <option value="고양시">고양시</option>
+        <option value="광진구">광진구</option>
+        <option value="서초구">서초구</option>
+        <option value="강서구">강서구</option>
+        <option value="구로구">구로구</option>
+        <option value="동대문구">동대문구</option>
+        <option value="종로구">종로구</option>
+      </select>
+    </div>
+    <div class="button-section">
+      <button type="submit">제출</button>
+      <button type="button" onclick="clearForm()">Clear</button>
+    </div>
+  </form>
+</div>
+<script th:inline="javascript">
+  function clearForm() {
+    document.getElementById("location").value = "전체";
+  }
+</script>
+</body>
+</html>

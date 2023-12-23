@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>구장 목록</title>
+  <style>
+    body {
+      background-color: #eee;
+    }
+
+    .container {
+      width: 80%;
+      min-width: 720px;
+      margin: 0 auto;
+      padding: 10px;
+      text-align: center;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .list {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .item {
+      width: 80%;
+      min-width: 540px;
+      height: 240px;
+      margin-top: 10px;
+      margin-left: auto;
+      margin-right:auto;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      cursor: pointer; /* 클릭 가능한 아이템으로 설정 */
+    }
+
+    .info {
+      text-align: left;
+      padding-left: 20px;
+      height: 100%;
+      min-width: 300px;
+    }
+
+    .info div {
+      display: block;
+      flex-direction: row;
+    }
+
+    .name p {
+      font-size: 20px;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+
+    .reservation {
+      margin-top: 120px;
+    }
+    .reservation p {
+      font-weight: 400;
+      color: #dd6a6d;
+      text-decoration: underline;
+    }
+
+    img {
+      width: 300px;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>구장 탐색</h1>
+  </header>
+  <div>
+    <p th:text="${location} + '  검색 결과 ' + ${outputCnt} + ' 건'"></p>
+  </div>
+  <div class="list">
+    <div th:each="stadium : ${stadiumList}" class="item" th:attr="data-url=${stadium.externalUrl}" onclick="goToExternalUrl(this)">
+      <div class="img">
+        <img
+            th:src="${stadium.image}"
+            alt="구장 이미지"
+        />
+      </div>
+      <div class="info">
+        <div class="name">
+          <p th:text="${stadium.name}"></p>
+        </div>
+        <div class="address">
+          <p th:text="${stadium.address}"></p>
+        </div>
+        <div class="reservation">
+          <p>예약하러 가기 (클릭)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script th:inline="javascript">
+  function goToExternalUrl(element) {
+    let externalUrl = element.getAttribute('data-url');
+    window.location.href = externalUrl;
+  }
+</script>
+</body>
+</html>
